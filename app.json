@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "SafetyIQ-Mobile",
+    "name": "SafetyIQ",
     "slug": "SafetyIQ-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,16 +10,18 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#8B0000"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ciavilla.safetyiq"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#8B0000"
       },
+      "package": "com.ciavilla.safetyiq",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
