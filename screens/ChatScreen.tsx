@@ -21,7 +21,11 @@ interface ChatMessage {
   showSources?: boolean;
 }
 
-export default function ChatScreen() {
+interface Props {
+  onLogout: () => void;
+}
+
+export default function ChatScreen({ onLogout}: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -108,8 +112,13 @@ export default function ChatScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>🦺 SafetyIQ</Text>
-        <Text style={styles.headerSubtitle}>OSHA-grounded safety assistant</Text>
+        <View>
+          <Text style={styles.headerTitle}>🦺 SafetyIQ</Text>
+          <Text style={styles.headerSubtitle}>OSHA-grounded safety assistant</Text>
+        </View>
+        <TouchableOpacity onPress={onLogout}>
+          <Text style={styles.logoutText}>Sign Out</Text>
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -184,6 +193,7 @@ const styles = StyleSheet.create({
   sourceContent: { fontSize: 12, color: '#444', marginTop: 4, lineHeight: 18 },
   loadingRow: { flexDirection: 'row', alignItems: 'center', padding: 12, gap: 8 },
   loadingText: { color: '#666', fontSize: 14 },
+  logoutText: { color: '#ffcccc', fontSize: 13 },
   inputRow: { flexDirection: 'row', padding: 12, gap: 8, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#e0e0e0' },
   input: { flex: 1, backgroundColor: '#f5f5f5', borderRadius: 20, paddingHorizontal: 16, paddingVertical: 10, fontSize: 15, maxHeight: 100, color: '#1a1a1a' },
   sendButton: { backgroundColor: '#8B0000', borderRadius: 20, paddingHorizontal: 18, justifyContent: 'center' },
