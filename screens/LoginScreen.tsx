@@ -100,7 +100,7 @@ export default function LoginScreen({ onLogin }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#8B0000' },
+  container: { flex: 1, backgroundColor: '#F5F5F5' },
   content: {
     flex: 1,
     alignItems: 'center',
@@ -118,29 +118,29 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#8B0000',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#ffcccc',
+    color: '#666666',
     marginBottom: 24,
     textAlign: 'center',
   },
   description: {
     fontSize: 14,
-    color: '#ffdddd',
+    color: '#666666',
     textAlign: 'center',
     lineHeight: 22,
     marginBottom: 40,
   },
   error: {
-    color: '#ffcccc',
+    color: '#8B0000',
     marginBottom: 16,
     textAlign: 'center',
   },
   loginButton: {
-    backgroundColor: '#fff',
+    backgroundColor: '#8B0000',
     borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 48,
@@ -148,15 +148,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
   },
-  loginButtonDisabled: { backgroundColor: '#ffdddd' },
+  loginButtonDisabled: { backgroundColor: '#cccccc' },
   loginButtonText: {
-    color: '#8B0000',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
   },
   disclaimer: {
     fontSize: 11,
-    color: '#ffaaaa',
+    color: '#999999',
     textAlign: 'center',
     lineHeight: 16,
   },

@@ -68,7 +68,6 @@ export default function ChatScreen({ onLogout}: Props) {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setLoading(false);
-      setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
     }
   };
 
@@ -133,6 +132,26 @@ export default function ChatScreen({ onLogout}: Props) {
             <Text style={styles.emptySubtitle}>
               Every answer cites its OSHA source so you can verify.
             </Text>
+            <Text style={styles.chipsHeading}>Try asking...</Text>
+            <View style={styles.chipsContainer}>
+              {[
+                'What PPE is required for electrical work?',
+                'What are lockout/tagout requirements?',
+                'When is fall protection required?',
+                'What are confined space entry requirements?',
+                'What are the rules for scaffold safety?',
+              ].map((suggestion) => (
+                <TouchableOpacity
+                  key={suggestion}
+                  style={styles.chip}
+                  onPress={() => {
+                    setInput(suggestion);
+                  }}
+                >
+                  <Text style={styles.chipText}>{suggestion}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         }
       />
@@ -174,33 +193,108 @@ export default function ChatScreen({ onLogout}: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5' },
-  header: { backgroundColor: '#8B0000', padding: 16, alignItems: 'center' },
-  headerTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
-  headerSubtitle: { color: '#ffcccc', fontSize: 12, marginTop: 2 },
+  container: { flex: 1, backgroundColor: '#F5F5F5' },
+  header: {
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  headerTitle: { color: '#8B0000', fontSize: 20, fontWeight: 'bold' },
+  headerSubtitle: { color: '#666666', fontSize: 12, marginTop: 2 },
+  logoutText: { color: '#8B0000', fontSize: 13 },
   messageList: { padding: 16, paddingBottom: 8 },
   messageBubble: { marginBottom: 12, maxWidth: '85%', borderRadius: 12, padding: 12 },
   userBubble: { backgroundColor: '#8B0000', alignSelf: 'flex-end' },
-  aiBubble: { backgroundColor: '#fff', alignSelf: 'flex-start', borderWidth: 1, borderColor: '#e0e0e0' },
+  aiBubble: { backgroundColor: '#FFFFFF', alignSelf: 'flex-start', borderWidth: 1, borderColor: '#E0E0E0' },
   messageText: { fontSize: 15, lineHeight: 22 },
-  userText: { color: '#fff' },
-  aiText: { color: '#1a1a1a' },
+  userText: { color: '#FFFFFF' },
+  aiText: { color: '#1A1A1A' },
   sourcesToggle: { marginTop: 8 },
   sourcesToggleText: { color: '#8B0000', fontSize: 13, fontWeight: '600' },
-  sourceCard: { marginTop: 8, backgroundColor: '#f9f9f9', borderRadius: 8, padding: 8, borderLeftWidth: 3, borderLeftColor: '#8B0000' },
-  sourceTitle: { fontSize: 12, fontWeight: '700', color: '#333' },
-  sourceMeta: { fontSize: 11, color: '#666', marginTop: 2 },
-  sourceContent: { fontSize: 12, color: '#444', marginTop: 4, lineHeight: 18 },
+  sourceCard: {
+    marginTop: 8,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    padding: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: '#8B0000',
+  },
+  sourceTitle: { fontSize: 12, fontWeight: '700', color: '#333333' },
+  sourceMeta: { fontSize: 11, color: '#666666', marginTop: 2 },
+  sourceContent: { fontSize: 12, color: '#444444', marginTop: 4, lineHeight: 18 },
   loadingRow: { flexDirection: 'row', alignItems: 'center', padding: 12, gap: 8 },
-  loadingText: { color: '#666', fontSize: 14 },
-  logoutText: { color: '#ffcccc', fontSize: 13 },
-  inputRow: { flexDirection: 'row', padding: 12, gap: 8, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#e0e0e0' },
-  input: { flex: 1, backgroundColor: '#f5f5f5', borderRadius: 20, paddingHorizontal: 16, paddingVertical: 10, fontSize: 15, maxHeight: 100, color: '#1a1a1a' },
+  loadingText: { color: '#666666', fontSize: 14 },
+  inputRow: {
+    flexDirection: 'row',
+    padding: 12,
+    gap: 8,
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1,
+    borderTopColor: '#E0E0E0',
+  },
+  input: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 15,
+    maxHeight: 100,
+    color: '#1A1A1A',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
   sendButton: { backgroundColor: '#8B0000', borderRadius: 20, paddingHorizontal: 18, justifyContent: 'center' },
-  sendButtonDisabled: { backgroundColor: '#ccc' },
-  sendButtonText: { color: '#fff', fontWeight: '700', fontSize: 15 },
-  disclaimer: { textAlign: 'center', fontSize: 10, color: '#999', paddingHorizontal: 16, paddingBottom: 8, backgroundColor: '#fff' },
-  emptyState: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 80, paddingHorizontal: 32 },
-  emptyTitle: { fontSize: 18, fontWeight: '700', color: '#333', textAlign: 'center' },
-  emptySubtitle: { fontSize: 14, color: '#666', textAlign: 'center', marginTop: 8, lineHeight: 20 },
+  sendButtonDisabled: { backgroundColor: '#CCCCCC' },
+  sendButtonText: { color: '#FFFFFF', fontWeight: '700', fontSize: 15 },
+  disclaimer: {
+    textAlign: 'center',
+    fontSize: 10,
+    color: '#999999',
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+    backgroundColor: '#FFFFFF',
+  },
+  emptyState: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 80,
+    paddingHorizontal: 32,
+  },
+  emptyTitle: { fontSize: 18, fontWeight: '700', color: '#1A1A1A', textAlign: 'center' },
+  emptySubtitle: { fontSize: 14, color: '#666666', textAlign: 'center', marginTop: 8, lineHeight: 20 },
+  chipsContainer: {
+    marginTop: 24,
+    width: '100%',
+    gap: 10,
+  },
+  chip: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#8B0000',
+    alignItems: 'center',
+  },
+  chipText: {
+    color: '#8B0000',
+    fontSize: 13,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  chipsHeading: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#666666',
+    marginTop: 24,
+    marginBottom: -4,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+  },
 });
