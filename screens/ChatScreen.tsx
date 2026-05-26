@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { sendQuery, Message, SourceChunk } from '../lib/api';
+import { searchOffline, initOfflineDB, OfflineResult } from '../lib/offlineSearch';
+import { useNetworkStatus } from '../hooks/useNetworkStatus';
 
 interface ChatMessage {
   id: string;
@@ -30,6 +32,11 @@ export default function ChatScreen({ onLogout}: Props) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const flatListRef = useRef<FlatList>(null);
+  const isOnline = useNetworkStatus();
+
+  useEffect(() => {
+    initOfflineDB();
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim() || loading) return;
@@ -50,15 +57,40 @@ export default function ChatScreen({ onLogout}: Props) {
     setLoading(true);
 
     try {
-      const response = await sendQuery(userMessage.content, history);
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: response.answer,
-        sources: response.sources,
-        showSources: false,
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+      if (isOnline) {
+        const response = await sendQuery(userMessage.content, history);
+        const assistantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: response.answer,
+          sources: response.sources,
+          showSources: false,
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
+      } else {
+        const results = await searchOffline(userMessage.content);
+        if (results.length === 0) {
+          const noResultsMessage: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            role: 'assistant',
+            content: 'No matching OSHA regulations found for your query. Try different keywords.',
+          };
+          setMessages((prev) => [...prev, noResultsMessage]);
+        } else {
+          const offlineContent = results
+            .map((r: OfflineResult, i: number) =>
+              `📄 ${r.document_title} — Page ${r.page_number}\n\n${r.content}`
+            )
+            .join('\n\n──────────\n\n');
+          const offlineMessage: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            role: 'assistant',
+            content: offlineContent,
+            showSources: false,
+          };
+          setMessages((prev) => [...prev, offlineMessage]);
+        }
+      }
     } catch (error) {
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -66,7 +98,8 @@ export default function ChatScreen({ onLogout}: Props) {
         content: 'Something went wrong. Please try again.',
       };
       setMessages((prev) => [...prev, errorMessage]);
-    } finally {
+    }
+     finally {
       setLoading(false);
     }
   };
@@ -119,6 +152,13 @@ export default function ChatScreen({ onLogout}: Props) {
           <Text style={styles.logoutText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
+      {!isOnline && (
+        <View style={styles.offlineBanner}>
+          <Text style={styles.offlineBannerText}>
+            📴 Offline Mode — Showing OSHA regulation text only
+          </Text>
+        </View>
+      )}
 
       <FlatList
         ref={flatListRef}
@@ -296,5 +336,17 @@ const styles = StyleSheet.create({
     marginBottom: -4,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
+  },
+  offlineBanner: {
+    backgroundColor: '#FFF3CD',
+    padding: 10,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#FFD700',
+  },
+  offlineBannerText: {
+    color: '#856404',
+    fontSize: 13,
+    fontWeight: '600',
   },
 });

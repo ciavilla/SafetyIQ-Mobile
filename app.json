@@ -16,8 +16,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.ciavilla.safetyiq",
       "infoPlist": {
-      "NSAppTransportSecurity": {
-        "NSAllowsArbitraryLoads": true
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
         }
       }
     },
@@ -31,14 +31,17 @@
       "predictiveBackGestureEnabled": false,
       "intentFilters": [
         {
-      "action": "VIEW",
-      "autoVerify": true,
-      "data": [
-        {
-          "scheme": "com.ciavilla.safetyiq"
-        }
-      ],
-      "category": ["BROWSABLE", "DEFAULT"]
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "com.ciavilla.safetyiq"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
@@ -46,7 +49,9 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-sqlite",
+      "expo-asset"
     ],
     "extra": {
       "eas": {
