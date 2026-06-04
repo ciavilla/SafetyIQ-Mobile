@@ -21,30 +21,15 @@
         }
       }
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#8B0000"
-      },
-      "package": "com.ciavilla.safetyiq",
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "autoVerify": true,
-          "data": [
-            {
-              "scheme": "com.ciavilla.safetyiq"
-            }
-          ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
-        }
-      ]
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/adaptive-icon.png",
+      "backgroundColor": "#8B0000"
     },
+    "package": "com.ciavilla.safetyiq",
+    "edgeToEdgeEnabled": true,
+    "predictiveBackGestureEnabled": false
+  },
     "web": {
       "favicon": "./assets/favicon.png"
     },
@@ -57,6 +42,12 @@
       "eas": {
         "projectId": "576a5fa8-4a02-4dbe-84d2-0b18cd91f171"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/576a5fa8-4a02-4dbe-84d2-0b18cd91f171"
     }
   }
 }
